@@ -1,4 +1,3 @@
-package Project;
 import java.util.*;
 import java.io.*;
 
@@ -7,7 +6,9 @@ public class KindergartenSystem2 {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n        Jooma School System     ");
         
-/* Login */
+/*----------------------------------------------------------------------------------------------------------------------------------
+                                                         Login 
+------------------------------------------------------------------------------------------------------------------------------------*/
 
         int tl = 1;
         while (tl<4) {
@@ -29,9 +30,14 @@ public class KindergartenSystem2 {
             }
             
         }
-/* เมนูหลัก */
+        
+/*----------------------------------------------------------------------------------------------------------------------------------
+                                                        Main Menu
+------------------------------------------------------------------------------------------------------------------------------------*/
+
         while (true){
 
+            System.out.println("\n----- Main Menu -----");
             System.out.println("1. Add student information");
             System.out.println("2. Show student information");
             System.out.println("3. Search students information");
@@ -49,8 +55,10 @@ public class KindergartenSystem2 {
             }
 
             switch (choice) {
-
-/* เพิ่มข้อมูลนักเรียน */
+        
+/*----------------------------------------------------------------------------------------------------------------------------------
+                                                    Add information 
+------------------------------------------------------------------------------------------------------------------------------------*/
 
                 case 1: 
 
@@ -58,7 +66,6 @@ public class KindergartenSystem2 {
                     
                     int id = 1;
                     File allfile = new File("Student.txt");
-
                     if (allfile.exists()) {
                         try (BufferedReader br = new BufferedReader(new FileReader(allfile))) {
                             while (br.readLine() != null) {
@@ -113,24 +120,43 @@ public class KindergartenSystem2 {
                 
                     String studentData = studentId +" " + name +" " + age +" " + y +" " + room;
                 
+                    while (true) {
+                        System.out.print("\nConfirm add student? (Y/N) :");
+                        String y_n = sc.nextLine().trim();
+                        
+                        if (y_n.equalsIgnoreCase("Y")) {
+
 // บันทึกลงไฟล์ห้อง
 
-                    try (FileWriter fw = new FileWriter(classFile, true);
-                         PrintWriter out = new PrintWriter(fw)) {
-                        out.println(studentData);
-                    }
+                            try (FileWriter fw = new FileWriter(classFile, true);
+                                PrintWriter out = new PrintWriter(fw)) {
+                                out.println(studentData);
+                            }
                 
 // บันทึกลงไฟล์รวมนักเรียนทั้งหมด (Student.txt)
 
-                    try (FileWriter fwAll = new FileWriter(allfile, true);
-                         PrintWriter outAll = new PrintWriter(fwAll)) {
-                        outAll.println(studentData);
-                    }
+                            try (FileWriter fwAll = new FileWriter(allfile, true);
+                                PrintWriter outAll = new PrintWriter(fwAll)) {
+                                outAll.println(studentData);
+                            }
                 
-                    System.out.println("Student added to " + filename + " and Student.txt successfully!\n");
+                            System.out.println("Student added to " + filename + " and Student.txt successfully!\n");
+                            break;
+                        }
+                        else if (y_n.equalsIgnoreCase("N")) {
+                            System.out.println("\nCanceled. Student not added. \n");
+                            break;
+                        }
+                        else{
+                            System.out.println("Only Y or N");
+                        }
+                    }
                     break;
-            
-/* แสดงข้อมูลนักเรียน */
+
+        
+/*----------------------------------------------------------------------------------------------------------------------------------
+                                                    Show information 
+------------------------------------------------------------------------------------------------------------------------------------*/
 
                 case 2: 
 
@@ -154,19 +180,30 @@ public class KindergartenSystem2 {
                     }
                     
                     switch (choice) {
-
-     
-    /* แสดงข้อมูลนักเรียนทั้งหมด */
+        
+/*----------------------------------------------------------------------------------------------------------------------------------
+                                                    All information 
+------------------------------------------------------------------------------------------------------------------------------------*/
 
                         case 1: 
                             System.out.println("\n----- All Student information -----\n");
                             try (BufferedReader br = new BufferedReader(new FileReader("Student.txt"))) {
+                                
+                            System.out.printf("%-5s %-10s %-4s %-5s %-5s\n", "ID", "name", "age", "Year", "Room");
+
                             String line;
                             boolean empty1 = true;
 
                             while ((line = br.readLine()) != null)
                             {
-                                System.out.println(line);
+                            String []arr = line.split(" ");
+                            String said = arr[0];
+                            String saname = arr[1];
+                            String saage = arr[2];
+                            String say = arr[3];
+                            String sar = arr[4];
+
+                            System.out.printf("%-5s %-10s %-4s %-5s %-5s\n", said, saname, saage, say, sar);
                                 empty1 = false;
                             }
 
@@ -175,8 +212,10 @@ public class KindergartenSystem2 {
                          catch (FileNotFoundException e) {System.out.println("No student data file found.\n");}
                             System.out.println();
                             break;
-
-    /* แสดงข้อมูลนักเรียนทั้งหมดในชั้นปี */
+        
+/*----------------------------------------------------------------------------------------------------------------------------------
+                                                    Year information 
+------------------------------------------------------------------------------------------------------------------------------------*/
 
                         case 2:
 
@@ -207,13 +246,26 @@ public class KindergartenSystem2 {
 
                                 if (!file.exists()) continue;
 
+                                foundYear = true;
+
                                 try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                                     String line;
                                     System.out.println("--> " + fileName+"\n");
+
+                                    System.out.printf("%-5s %-10s %-4s %-5s %-5s\n", "ID", "name", "age", "Year", "Room");
+
                                     while ((line = br.readLine()) != null) {
-                                        System.out.println(line+"\n");
-                                        foundYear = true;
+                                        String []arr = line.split(" ");
+                                        String syid = arr[0];
+                                        String syname = arr[1];
+                                        String syage = arr[2];
+                                        String syy = arr[3];
+                                        String syr = arr[4];
+
+                                        System.out.printf("%-5s %-10s %-4s %-5s %-5s\n", syid, syname, syage, syy, syr);    
                                     }
+                                    System.out.println();
+
                                 } catch (IOException e) {
                                     System.out.println("Error reading " + fileName);
                                 }
@@ -221,8 +273,10 @@ public class KindergartenSystem2 {
                 
                             if (!foundYear) System.out.println("No data found for Year K" + sy1 + "\n");
                             break;
-                
-    /* แสดงข้อมูลนักเรียนทั้งหมดในห้อง */
+            
+/*----------------------------------------------------------------------------------------------------------------------------------
+                                                    Room information 
+------------------------------------------------------------------------------------------------------------------------------------*/
 
                         case 3:
                             System.out.println("\n----- All Student information by Room -----");
@@ -260,8 +314,18 @@ public class KindergartenSystem2 {
                                 String line;
                                 boolean empty3 = true;
                                 System.out.println("Students in " + fileName);
+
+                                System.out.printf("%-5s %-10s %-4s %-5s %-5s\n", "ID", "name", "age", "Year", "Room");
+
                                 while ((line = br.readLine()) != null) {
-                                    System.out.println(line);
+                                    String []arr = line.split(" ");
+                                    String srid = arr[0];
+                                    String srname = arr[1];
+                                    String srage = arr[2];
+                                    String sry = arr[3];
+                                    String srr = arr[4];
+
+                                    System.out.printf("%-5s %-10s %-4s %-5s %-5s\n", srid, srname, srage, sry, srr);
                                     empty3 = false;
                                 }
                                 if (empty3) System.out.println("No student data in this class.\n");
@@ -273,43 +337,33 @@ public class KindergartenSystem2 {
                     break;
                 }
                 break;
-
-/* หาข้อมูลนักเรียน */                    
+        
+/*----------------------------------------------------------------------------------------------------------------------------------
+                                                        Search 
+------------------------------------------------------------------------------------------------------------------------------------*/
 
                 case 3: 
-                    System.out.println("\n----- Search Student Information -----\n");
+                     System.out.println("\n----- Search by ID -----");
+                     System.out.print("\nEnter Student ID (e.g. 0001): ");
+                     String sid = sc.nextLine();
 
-                    while (true) {
-                        System.out.println("1. Search by ID");
-                        System.out.println("2. Search by Name");
-                        System.out.println("0. Back to Main Menu");
-                        System.out.print("Select Submenu: ");
+                    boolean foundId = false;
+                    try (BufferedReader br = new BufferedReader(new FileReader("Student.txt"))) {
+                    String line;
 
-                        choice = sc.nextInt();
-                        sc.nextLine();
+                    System.out.printf("\n%-5s %-10s %-4s %-5s %-5s\n", "ID", "name", "age", "Year", "Room");
 
-                        if(choice==0)break;
+                    while ((line = br.readLine()) != null) {
+                    if (line.startsWith(sid + " ")) {
+                        String []arr = line.split(" ");
+                        String siid = arr[0];
+                        String siname = arr[1];
+                        String siage = arr[2];
+                        String siy = arr[3];
+                        String sir = arr[4];
 
-                        if (choice < 0 || choice > 3) {
-                        System.out.println("\nOnly 1-3!\n");
-                        continue;
-                    }
-
-    /* หาด้วยไอดี */
-
-                    switch (choice) {
-                        case 1:
-                            System.out.println("\n----- Search by ID -----");
-                            System.out.print("\nEnter Student ID (e.g. 0001): ");
-                            String sid = sc.nextLine();
-
-                            boolean foundId = false;
-                            try (BufferedReader br = new BufferedReader(new FileReader("Student.txt"))) {
-                            String line;
-                            while ((line = br.readLine()) != null) {
-                            if (line.startsWith(sid + " ")) {
-                            System.out.println("\n" + line+"\n");
-                            foundId = true;
+                        System.out.printf("%-5s %-10s %-4s %-5s %-5s\n\n", siid, siname, siage, siy, sir);
+                        foundId = true;
                                 }
                             }
                             if (!foundId) System.out.println("\nID not found.\n");
@@ -318,35 +372,10 @@ public class KindergartenSystem2 {
                             System.out.println("No student data file found.\n");
                             }
                             break;
-                          
-    /* หาด้วยชื่อ */                       
-
-                        case 2:
-                            System.out.println("\n----- Search by Name -----");
-                            System.out.print("\nEnter Student Name : ");
-                            String sname = sc.nextLine();
-
-                            boolean foundname = false;
-                            try (BufferedReader br = new BufferedReader(new FileReader("Student.txt"))) {
-                            String line;
-
-                            while ((line = br.readLine()) != null) {
-                            if (line.toLowerCase().contains(sname.toLowerCase())) {
-                            System.out.println("\n" + line+"\n");
-                            foundname = true;
-                                }
-                            }
-                            if (!foundname) System.out.println("\nName not found.\n");
-                            } 
-                            catch (FileNotFoundException e) {
-                            System.out.println("No student data file found.\n");
-                            }
-                            break;
-                    }
-                }
-                break;
-
-/* แก้ไขข้อมูล */
+        
+/*----------------------------------------------------------------------------------------------------------------------------------
+                                                            Edit 
+------------------------------------------------------------------------------------------------------------------------------------*/
 
                 case 4:
                     System.out.println("\n----- Edit student information -----");
@@ -407,8 +436,10 @@ public class KindergartenSystem2 {
                     } catch (Exception e) {
                         // TODO: handle exception
                     }
-                   
-/* ลบข้อมูล */
+        
+/*----------------------------------------------------------------------------------------------------------------------------------
+                                                    Add information 
+------------------------------------------------------------------------------------------------------------------------------------*/
 
                 case 5: 
                     System.out.println("\n----- Delets Student Tnformation -----");
