@@ -108,24 +108,25 @@ public class KindergartenSystem2 {
                         System.out.println("** Classroom Only 1-3 **.\n"); 
                     }
                 
-// นำค่าที่รับมาทำเป็นตัวแปร เพื่อสร้างไฟล์
 
-                    String filename = "K" + y + "_" + room + ".txt";
-                    File classFile = new File(filename);
-                
-                    if (!classFile.exists()) {
-                        classFile.createNewFile();
-                        System.out.println("Created file: " + filename);
-                    }
-                
-                    String studentData = studentId +" " + name +" " + age +" " + y +" " + room;
-                
                     while (true) {
                         System.out.print("\nConfirm add student? (Y/N) :");
                         String y_n = sc.nextLine().trim();
                         
                         if (y_n.equalsIgnoreCase("Y")) {
 
+ // นำค่าที่รับมาทำเป็นตัวแปร เพื่อสร้างไฟล์
+
+                            String filename = "K" + y + "_" + room + ".txt";
+                            File classFile = new File(filename);
+                
+                            if (!classFile.exists()) {
+                            classFile.createNewFile();
+                            System.out.println("Created file: " + filename);
+                    }
+                
+                            String studentData = studentId +" " + name +" " + age +" " + y +" " + room;
+                
 // บันทึกลงไฟล์ห้อง
 
                             try (FileWriter fw = new FileWriter(classFile, true);
@@ -438,7 +439,7 @@ public class KindergartenSystem2 {
                     }
         
 /*----------------------------------------------------------------------------------------------------------------------------------
-                                                    Add information 
+                                                            Delets
 ------------------------------------------------------------------------------------------------------------------------------------*/
 
                 case 5: 
@@ -467,7 +468,7 @@ public class KindergartenSystem2 {
                        
                     }
                     if(delete){ 
-                        System.out.print("แน่ใจบ่ Y/N : ");
+                        System.out.print("Confirm delets student? Y/N : ");
                         String y_n = sc.nextLine();
 
                        if(y_n.equalsIgnoreCase("Y"))
