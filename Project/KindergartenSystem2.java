@@ -79,7 +79,7 @@ public class KindergartenSystem2 {
 
 
                     String studentId = String.format("%04d", id);
-                    System.out.println("Generated ID: " + studentId); 
+                    System.out.println("ID: " + studentId); 
 
                     System.out.print("Name : ");
                     String name = sc.nextLine();        
@@ -90,7 +90,7 @@ public class KindergartenSystem2 {
 
                     int y;
                     while (true) {
-                        System.out.print("Year : ");
+                        System.out.print("Year (1-3): ");
                         y = sc.nextInt();               
                         sc.nextLine();
 
@@ -400,17 +400,18 @@ public class KindergartenSystem2 {
                             String edage = arr[2];
                             String edy = arr[3];
                             String edr = arr[4];
+                            
 
                             if(edid.equals(edids)){
-                                System.out.println("Name : ");
+                                System.out.print("Name : ");
                                 String nameed = sc.nextLine();
                                 if(nameed.isEmpty()){nameed = edname;}
 
-                                System.out.println("Age : ");
+                                System.out.print("Age : ");
                                 String ageed = sc.nextLine();
                                 if(ageed.isEmpty()){ageed=edage;}
                                 
-                                System.out.println("Year : ");
+                                System.out.print("Year (1-3): ");
                                 String yed = sc.nextLine();
 
                                 if (yed.equals("1")||yed.equals("2")||yed.equals("3")||yed.isEmpty()){
@@ -420,7 +421,7 @@ public class KindergartenSystem2 {
                                 else {System.out.println("** Please enter Year only 1-3. **\n");}
                                 
                                 
-                                System.out.println("Classroom number (1-3): ");
+                                System.out.print("Classroom number (1-3): ");
                                 String red = sc.nextLine();
 
                                 if (red.equals("1")||red.equals("2")||red.equals("3")||red.isEmpty()){
@@ -435,11 +436,29 @@ public class KindergartenSystem2 {
                         }
                         
                     } catch (Exception e) {
-                        // TODO: handle exception
+                        
                     }
+                    
+                    if(edit){
+                        System.out.println("Confirm edit student? Y/N : ");
+                        String y_n = sc.nextLine();
+
+                        if (y_n.equalsIgnoreCase("Y")) {
+                            System.out.println();
+                            break;
+                        }
+                        else if(y_n.equalsIgnoreCase("N")){
+                            System.out.println("Canceled. Edit student information");
+                            break;
+                        }
+                        else{
+                            System.out.println("Only Y or N !");
+                        }
+                    }
+
         
 /*----------------------------------------------------------------------------------------------------------------------------------
-                                                            Delets
+                                                            Deletes
 ------------------------------------------------------------------------------------------------------------------------------------*/
 
                 case 5: 
