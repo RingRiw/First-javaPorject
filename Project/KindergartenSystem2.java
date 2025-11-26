@@ -1,4 +1,5 @@
 import java.util.*;
+import javax.print.attribute.SetOfIntegerSyntax;
 import java.io.*;
 
 public class KindergartenSystem2 {
@@ -25,7 +26,7 @@ public class KindergartenSystem2 {
                 tl++;
                 if(tl==4){
                     System.out.println("\nTry again in 1 min.");
-                    return;
+                    return;      
                 }
             }
             
@@ -37,7 +38,7 @@ public class KindergartenSystem2 {
 
         while (true){
 
-            System.out.println("\n----- Main Menu -----");
+            System.out.println("\n----- Main Menu -----\n");
             System.out.println("1. Add student information");
             System.out.println("2. Show student information");
             System.out.println("3. Search students information");
@@ -176,7 +177,7 @@ public class KindergartenSystem2 {
                     if(choice==0)break;
                     
                     if (choice < 0 && choice > 3) {
-                        System.out.println("\n** Only 1-4! **\n");
+                        System.out.println("\n** Only 0-3! **\n");
                         continue;
                     }
                     
@@ -294,7 +295,6 @@ public class KindergartenSystem2 {
                             while (true) {
                                 System.out.print("Room (1-3) : ");
                                 sr = sc.nextInt();
-                                sc.nextLine();
                                 if (sr >= 1 && sr <= 3) break;
                                 System.out.println("\n** Plase input room 1-3! **\n"); 
                             }
@@ -314,9 +314,9 @@ public class KindergartenSystem2 {
                             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                                 String line;
                                 boolean empty3 = true;
-                                System.out.println("Students in " + fileName);
+                                System.out.println("\nStudents in " + fileName);
 
-                                System.out.printf("%-5s %-10s %-4s %-5s %-5s\n", "ID", "name", "age", "Year", "Room");
+                                System.out.printf("%-5s %-10s %-4s %-5s %-5s\n\n", "ID", "name", "age", "Year", "Room");
 
                                 while ((line = br.readLine()) != null) {
                                     String []arr = line.split(" ");
@@ -379,7 +379,7 @@ public class KindergartenSystem2 {
 ------------------------------------------------------------------------------------------------------------------------------------*/
 
                 case 4:
-                    System.out.println("\n----- Edit student information -----");
+                    System.out.println("\n----- Edit student information -----\n");
 
                     System.out.print("Enter Student ID (0001-9999) : ");
                     String edid =sc.nextLine();
@@ -387,7 +387,18 @@ public class KindergartenSystem2 {
                     File editFile = new File("Student.txt");
                     File tempedit = new File("tempedit.txt");
 
+                            
                     boolean edit = false;
+                    String edids = "";
+                    String edname = "";
+                    String edage = "";
+                    String edy = "";
+                    String edr = "";
+
+                    String newname = "";
+                    String newage = "";
+                    String newy  = "";
+                    String newr = "";
 
                     try (BufferedReader br = new BufferedReader(new FileReader(editFile));
                     PrintWriter pw = new PrintWriter(new FileWriter(tempedit))){
@@ -395,74 +406,82 @@ public class KindergartenSystem2 {
                         String line;
                         while ((line = br.readLine())!=null) {
                             String []arr = line.split(" ");
-                            String edids = arr[0];
-                            String edname = arr[1];
-                            String edage = arr[2];
-                            String edy = arr[3];
-                            String edr = arr[4];
-                            
+                            edids = arr[0];
+                            edname = arr[1];
+                            edage = arr[2];
+                            edy = arr[3];
+                            edr = arr[4];
 
                             if(edid.equals(edids)){
                                 System.out.print("Name : ");
-                                String nameed = sc.nextLine();
-                                if(nameed.isEmpty()){nameed = edname;}
+                                newname = sc.nextLine();
+                                if(newname.isEmpty()){newname = edname;}
 
                                 System.out.print("Age : ");
-                                String ageed = sc.nextLine();
-                                if(ageed.isEmpty()){ageed=edage;}
-                                
-                                System.out.print("Year (1-3): ");
-                                String yed = sc.nextLine();
+                                newage = sc.nextLine();
+                                if(newage.isEmpty()){newage = edage;}
 
-                                if (yed.equals("1")||yed.equals("2")||yed.equals("3")||yed.isEmpty()){
-                                    if(yed.isEmpty()){yed=edy;}
-                                }
-                                
-                                else {System.out.println("** Please enter Year only 1-3. **\n");}
-                                
-                                
-                                System.out.print("Classroom number (1-3): ");
-                                String red = sc.nextLine();
+                                System.out.print("Year : ");
+                                newy = sc.nextLine();
+                                if(newy.isEmpty()){newy = edy;}
 
-                                if (red.equals("1")||red.equals("2")||red.equals("3")||red.isEmpty()){
-                                    if(red.isEmpty()){red=edr;}
-                                }
-                                
-                                else {System.out.println("** Please enter Classroom only 1-3. **\n");}
-                                
-                            line = edids+" "+nameed+" "+ageed+" "+yed+" "+red;
+                                System.out.print("Room : ");
+                                newr =sc.nextLine();
+                                if(newr.isEmpty()){newr = edr;}
                             }
-                            pw.println(line);
-                        }
-                        
-                    } catch (Exception e) {
-                        
-                    }
-                    
-                    if(edit){
-                        System.out.println("Confirm edit student? Y/N : ");
-                        String y_n = sc.nextLine();
+                                
+                            System.out.print("Confirm edit student? Y/N : ");
+                            String y_n = sc.nextLine();
 
-                        if (y_n.equalsIgnoreCase("Y")) {
-                            System.out.println();
-                            break;
-                        }
-                        else if(y_n.equalsIgnoreCase("N")){
-                            System.out.println("Canceled. Edit student information");
-                            break;
-                        }
-                        else{
-                            System.out.println("Only Y or N !");
-                        }
-                    }
+                            while(true){
+                                String newclassroom = "K"+newy+"_"+newr+".txt";
+                                String oldclassroom = "K"+edy+"_"+edr+".txt";
 
+                                if (y_n.equalsIgnoreCase("Y")) {
+                                    edit = true;
+                                    line = edids+" "+newname+" "+newage+" "+newy+" "+newr;
+                                    editFile.delete();
+                                    tempedit.renameTo(editFile);
+                                    break;
+                                }
+                                else if(y_n.equalsIgnoreCase("N")){
+                                System.out.println("Canceled. Edit student information");
+                                break;
+                                }
+                                else{
+                                System.out.println("Only Y or N !");
+                                }
+                                }
+                                }
+                                pw.println(line);
+
+                               
+                            
+                        }
+                                
+                            
+            
+                            catch (Exception e) {
+                        
+                            }
+                            if(editFile.delete()) {
+    if(tempedit.renameTo(editFile)) {
+        System.out.println("File updated successfully!");
+    } else {
+        System.out.println("Failed to rename temp file!");
+    }
+} else {
+    System.out.println("Failed to delete original file!");
+}
+
+                            
         
 /*----------------------------------------------------------------------------------------------------------------------------------
                                                             Deletes
 ------------------------------------------------------------------------------------------------------------------------------------*/
 
                 case 5: 
-                    System.out.println("\n----- Delets Student Tnformation -----");
+                    System.out.println("\n----- Delete Student Tnformation -----");
 
                     System.out.print("\nEnter Student ID to delete (0001-9999) : ");
                     String delid = sc.nextLine();
@@ -470,33 +489,65 @@ public class KindergartenSystem2 {
                     File origFile = new File("Student.txt");
                     File tempFile = new File("temp.txt");
 
-                    boolean delete = false;
+                    boolean found = false;
+                    String dely = "";
+                    String delr = "";
+                    String dleLine = "";
 
-                    try (BufferedReader br = new BufferedReader(new FileReader(origFile));
-                    PrintWriter pw = new PrintWriter(new FileWriter(tempFile))){
-
+                    try (BufferedReader br = new BufferedReader(new FileReader(origFile))){
                         String line;
+
                         while ((line = br.readLine()) !=null) {
                             if (line.startsWith(delid + " ")) {
-                                delete = true;
-                                continue; 
+                                found = true;
+                                dleLine = line;
+                                
+                                String[] arr = line.split(" ");
+                                dely = arr[3];
+                                delr = arr[4];
                             }
-                            pw.println(line);
-                        }
-
-                       
+                        }  
                     }
-                    if(delete){ 
-                        System.out.print("Confirm delets student? Y/N : ");
+                    if(found){ 
+                        System.out.print("Confirm to delete student? Y/N : ");
                         String y_n = sc.nextLine();
 
                        if(y_n.equalsIgnoreCase("Y"))
                        {
+                        try(BufferedReader br = new BufferedReader(new FileReader(origFile));
+                        PrintWriter pw = new PrintWriter(new FileWriter(tempFile))){
+
+                            String line;
+                            while ((line = br.readLine()) !=null) {
+                                if(line.equals(dleLine)) continue;
+                                pw.println(line);
+                            }
+                        }
                         origFile.delete();
                         tempFile.renameTo(origFile);
-                       }
-                       else if(y_n.equalsIgnoreCase("N"))break;
 
+                        String classFilename = "K"+dely+"_"+delr+".txt";
+                        File classFile = new File(classFilename);
+                        File tempClass = new File("tempClass.txt");
+
+                        try(BufferedReader br = new BufferedReader(new FileReader(classFile));
+                        PrintWriter pw = new PrintWriter(new FileWriter(tempClass))){
+
+                            String line;
+                            while ((line = br.readLine()) !=null) {
+                                if(line.equals(dleLine)) continue;
+                                pw.println(line);
+                            }
+                        }
+                        classFile.delete();
+                        tempClass.renameTo(classFile);
+                        System.out.println("Delete successfully!\\n");
+                        }
+                       else if(y_n.equalsIgnoreCase("N")){
+                        System.out.println("Canceled ");
+                        tempFile.delete();
+                        break;
+                        }
                        else
                        {
                         System.out.println("Only Y or N !");
@@ -508,41 +559,8 @@ public class KindergartenSystem2 {
                         System.out.println("Student ID not found.\n");
                     }
 
-                    for(int dely=1; dely<=3; dely++){
-                        for(int delr =1; delr<=3; delr++){
-                            String classFileName = "K" + dely + "_" + delr + ".txt";
-                            File classFiledel = new File(classFileName);
-                            if(!classFiledel.exists()) continue;
-
-                            File tempClass = new File("tempClass.txt");
-                            boolean remove = false;
-
-                            try (BufferedReader br = new BufferedReader(new FileReader(classFiledel));
-                                PrintWriter pw = new PrintWriter(new FileWriter(tempClass))){
-
-                                String line;
-                                while ((line = br.readLine())!=null) {
-                                    if(line.contains("ID : "+delid)){
-                                        remove = true;
-                                        continue;
-                                    }
-                                    pw.println(line);
-                                }
-                            }
-                            if (remove) {
-                                classFiledel.delete();
-                                tempClass.renameTo(classFiledel);
-                                System.out.println("Student ID "+delid+" deleted complete!");
-                            }
-                            else tempClass.delete();
-                        }
-                    }
                 break;
 
-                case 0: 
-                    System.out.println("\nExiting Jooma School System\nBye ;p");
-                    return;
-            
                 default: System.out.println("Pla");
                     return;
             }
